@@ -22,14 +22,17 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+- task: SonarQubePrepare@4
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    scannerMode: 'MSBuild'
+    projectKey: '2d389877ec3f162065d554944f39511b65ba220d'
+    projectName: 'eShopOnWeb'
 
-- task: SonarCloudAnalyze@1
+- task: SonarQubeAnalyze@4
+
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
 
 - task: SnykSecurityScan@0
   inputs:
